@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,6 +10,8 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import {createDrawerNavigator} from '@react-navigation/drawer'
 import Options from '../screens/Options';
 import User from '../screens/User';
+import { useTranslation } from 'react-i18next';
+
 const getDrawerItemIcon = icon => ({tintColor}) => (
     <MaterialIcons name={icon} size={22} style={{color: tintColor}} />
 )
@@ -104,24 +105,34 @@ const FavoritesScreens = () =>
 }
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = ()=>{
+    const { t } = useTranslation();
     return(
         <NavigationContainer>
             <Drawer.Navigator
                 initialRouteName='ContactsScreens'
+                screenOptions={{
+                    drawerActiveBackgroundColor: colors.white,
+                    headerStyle: {
+                        backgroundColor: colors.blue,
+                      },
+                }}
             >
                 <Drawer.Screen name='ContactsScreens' component={ContactsScreens}
                     options={{
                         drawerIcon: getDrawerItemIcon('list'),
+                        title: t('contact-screen')
                     }}
                 />
                 <Drawer.Screen name='FavoritesScreens' component={FavoritesScreens}
                     options={{
                         drawerIcon: getDrawerItemIcon('star'),
+                        title: t('favorite-screen')
                     }}
                 />
                 <Drawer.Screen name='UserScreens' component={UserScreens}
                     options={{
                         drawerIcon: getDrawerItemIcon('person'),
+                        title: t('user-screen')
                     }}
                 />
             </Drawer.Navigator>
@@ -130,34 +141,37 @@ const DrawerNavigator = ()=>{
 }
 const UserScreens = ({navigation}) =>
 {
+    const { t } = useTranslation();
     return(
         <Stack.Navigator
             initialRouteName='User'
         >
             <Stack.Screen name='User' component={User}
                 options={{
-                    headerTitle:"Me",
-                    headerTintColor: 'white',
+                    headerTitle:t('me'),
+                    headerTintColor: 'black',
                     headerStyle:{
-                        backgroundColor: colors.blue,
+                        backgroundColor: 'white',
                     },
                     headerRight: ()=>(
                         <MaterialIcons
                             name='settings'
                             size={24}
-                            style={{color: 'white', marginRight: 10}}
+                            style={{color: 'black', marginRight: 10}}
                             onPress={() => navigation.navigate('Options')}
                         />
                     )
                 }}
             />
             <Stack.Screen name='Options' component={Options}
-                options={{title: 'Options'}}/>
+                options={{title: t('options')}}/>
+                
         </Stack.Navigator>
     )
 }
 const Tab = createMaterialBottomTabNavigator();
 const TabNavigation = () => {
+    const { t } = useTranslation();
     return (
         <NavigationContainer>
             <Tab.Navigator
@@ -166,16 +180,17 @@ const TabNavigation = () => {
                     tabBarStyle: { backgroundColor: colors.blue },
                     tabBarActiveTintColor: colors.greyLight,
                     tabBarInactiveTintColor: colors.greyDark,
-                    headerShown: false,  // Hide header for all screens in this navigator
-                    contentContainerStyle: { marginTop: 20 } // This is less common for tab screens
+                    headerShown: false, 
                 }}
+                style={{paddingTop: 32}}
             >
                 <Tab.Screen
                     name="ContactsScreens"
                     component={ContactsScreens}
                     options={{
                         tabBarIcon: getTabBarIcon('list'),
-                        tabBarLabel: 'Contacts',
+                        //tabBarLabel: 'Contacts',
+                        title: t('contact-screen')
                     }}
                 />
                 <Tab.Screen
@@ -183,7 +198,8 @@ const TabNavigation = () => {
                     component={FavoritesScreens}
                     options={{
                         tabBarIcon: getTabBarIcon('star'),
-                        tabBarLabel: 'Favorites',
+                        //tabBarLabel: 'Favorites',
+                        title: t('favorite-screen')
                     }}
                 />
                 <Tab.Screen
@@ -191,11 +207,12 @@ const TabNavigation = () => {
                     component={UserScreens}
                     options={{
                         tabBarIcon: getTabBarIcon('person'),
-                        tabBarLabel: 'User',
+                        //tabBarLabel: 'User',
+                        title: t('user-screen')
                     }}
                 />
             </Tab.Navigator>
         </NavigationContainer>
     );
 };
-export default TabNavigation;
+export {TabNavigation, DrawerNavigator};

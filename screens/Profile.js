@@ -5,8 +5,8 @@ import DetailListItem from '../components/DetailListItem';
 import colors from '../utility/colors';
 
 const Profile = ({ route }) => {
-  const { contact } = route.params || {};  // Check if route.params exists
-  const { avatar = '', name = '', email = 'No email available', phone = 'No phone available', cell = 'No cell available' } = contact || {};  // Default values
+  const { contact } = route.params || {}; 
+  const { avatar = '', name = '', email = 'No email available', phone = 'No phone available', cell = 'No cell available' } = contact || {};  
 
   return (
     <View style={styles.container}>

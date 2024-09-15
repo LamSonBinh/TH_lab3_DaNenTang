@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Button } from 'react-native';
 import ContactThumbnail from '../components/ContactThumbnail';
 import colors from '../utility/colors';
 import { fetchUserContact } from '../utility/api';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
+
 
 const User = () => {
   const [user, setUser] = useState({});
@@ -21,7 +24,7 @@ const User = () => {
         setLoading(false);
         setError(true);
       });
-  }, []); // Added dependency array to prevent infinite loop
+  }, []);
 
   const { avatar, name, phone } = user;
 
